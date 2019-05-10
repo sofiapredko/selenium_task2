@@ -7,13 +7,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -28,12 +24,6 @@ public class SendEmailTest {
     private static final String SENT_EMAIL_WIDGET = "Лист надіслано.";
 
     private WebDriver driver = DriverManager.getInstance();
-
-    @BeforeTest
-    public void setObjects() {
-        driver.manage().timeouts()
-                .implicitlyWait(30, TimeUnit.SECONDS);
-    }
 
     @Test
     public void logInAndSendEmail() {
@@ -68,13 +58,9 @@ public class SendEmailTest {
         WebElement writeEmailButton1 = driver.findElement(By.xpath("//div[text()='Написати']"));
         writeEmailButton1.click();
 
-        WebDriverWait waitForWidget = new WebDriverWait(driver, 15);
-        //WebElement emailSentWidget = waitForWidget.until(ExpectedConditions.visibilityOfElementLocated(By.className("bAq")));
-        Boolean emailSentWidget = waitForWidget.until(ExpectedConditions.textToBePresentInElement(By.className("bAq"), SENT_EMAIL_WIDGET));
-        if(emailSentWidget) {
-            String actualMessage  = driver.findElement(By.className("bAq")).getText();
-            assertEquals(SENT_EMAIL_WIDGET, actualMessage );
-        }
+        WebElement sendWidget = driver.findElement(By.id("link_vsm"));
+        Assert.assertTrue(sendWidget.isDisplayed(),  SENT_EMAIL_WIDGET);
+
         LOG.info("Sent successfully");
     }
 

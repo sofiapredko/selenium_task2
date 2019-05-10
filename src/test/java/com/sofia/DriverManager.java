@@ -3,6 +3,8 @@ package com.sofia;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.concurrent.TimeUnit;
+
 public class DriverManager {
     private static WebDriver driver;
     private static final String DRIVER_PATH = "src/main/resources/chromedriver.exe";
@@ -13,9 +15,17 @@ public class DriverManager {
 
     public static WebDriver getInstance() {
         if (driver == null) {
-            System.setProperty(WEB_DRIVER_NAME, DRIVER_PATH);
-            driver = new ChromeDriver();
+            driver = setSettings();
         }
+        return driver;
+    }
+
+    private static WebDriver setSettings() {
+        System.setProperty(WEB_DRIVER_NAME, DRIVER_PATH);
+        driver = new ChromeDriver();
+        driver.manage().timeouts()
+                .implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
         return driver;
     }
 }
