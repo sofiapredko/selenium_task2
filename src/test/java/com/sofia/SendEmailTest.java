@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -18,16 +17,13 @@ import static org.testng.AssertJUnit.assertEquals;
 public class SendEmailTest {
     private static final Logger LOG = LogManager.getLogger(SendEmailTest.class);
     private static final String SIGN_IN_PAGE = "https://mail.google.com";
-    private static final String DRIVER_PATH = "src/main/resources/chromedriver.exe";
-    private static final String WEB_DRIVER_NAME = "webdriver.chrome.driver";
     private static final String TEST_USERNAME = "sonyachanter@gmail.com";
     private static final String TEST_PASSWORD = "sonichka13";
-    private static WebDriver driver;
+    private static final String RECEIVER_EMAIL = "sophiepredko@gmail.com";
+    private static final String EMAIL_TEXT = "This is test email :)";
+    private static final String EMAIL_SUBJECT = "Test Email";
 
-    static {
-        System.setProperty(WEB_DRIVER_NAME, DRIVER_PATH);
-        driver = new ChromeDriver();
-    }
+    private WebDriver driver = DriverManager.getInstance();
 
     @BeforeTest
     public void setObjects() {
@@ -57,18 +53,17 @@ public class SendEmailTest {
 
         WebElement toPersonTextArea = driver.findElement(By.name("to"));
         toPersonTextArea.click();
-        toPersonTextArea.sendKeys("sophiepredko@gmail.com");
+        toPersonTextArea.sendKeys(RECEIVER_EMAIL);
 
         WebElement themeArea = driver.findElement(By.name("subjectbox"));
         themeArea.click();
-        String subj = "Test Email";
-        themeArea.sendKeys(subj);
+        themeArea.sendKeys(EMAIL_SUBJECT);
 
         //assertEquals(themeArea.getAttribute("dir"), subj);
 
         WebElement writeEmailTextArea = driver.findElement(By.xpath("//div[@role='textbox']"));
         writeEmailTextArea.click();
-        writeEmailTextArea.sendKeys("This is test email :) ");
+        writeEmailTextArea.sendKeys(EMAIL_TEXT);
 
         WebElement sendButton = driver.findElement(By.xpath("//div[@data-tooltip='Надіслати ‪(Ctrl –Enter)‬']"));
         sendButton.click();
