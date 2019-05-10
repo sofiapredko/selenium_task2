@@ -59,16 +59,15 @@ public class SendEmailTest {
         themeArea.click();
         themeArea.sendKeys(EMAIL_SUBJECT);
 
-        //assertEquals(themeArea.getAttribute("dir"), subj);
-
         WebElement writeEmailTextArea = driver.findElement(By.xpath("//div[@role='textbox']"));
         writeEmailTextArea.click();
         writeEmailTextArea.sendKeys(EMAIL_TEXT);
 
-        WebElement sendButton = driver.findElement(By.xpath("//div[@data-tooltip='Надіслати ‪(Ctrl –Enter)‬']"));
+        WebElement sendButton = driver.findElement(By.xpath("//div[text()='Надіслати']"));
         sendButton.click();
 
-//      assertTrue(imagePageElement.getAttribute("aria-selected"), true);
+        LOG.info("Sent successfully");
+
     }
 
     @AfterTest
